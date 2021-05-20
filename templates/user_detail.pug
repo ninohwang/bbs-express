@@ -1,0 +1,36 @@
+extends layout.pug 
+block content 
+
+  //- 接入参数 {posts / comments/ userOne / user(req.user)}
+  .user-info-wrapper.mb-3.my-3.p-3.bg-body.rounded.shadow-sm
+    h3 用户详情页#[small (user information)] 
+      
+      if user && user.email == userOne.email
+        a.fs-6.text-secondary.edit-profile-link(href='/edit-profile/') 修改信息
+    img(width="50" height="50" src=`/upload/user_avatar/${userOne.avatar}`).rounded.col.flex-grow-0.flex-shrink-0
+    br
+    small 用户名： #{userOne.nickname}&nbsp;&nbsp;&nbsp; 邮箱： #{userOne.email}
+    br
+    small 加入于#{new Date(userOne.createAt).toLocaleString()}
+
+  .my-3.p-3.bg-body.rounded.shadow-sm
+    h4.pb-2.mb-0 用户发帖：
+    each post in posts
+      .d-flex.text-muted.pt-3.border-bottom
+        p.posts-list.pb-3.mb-0.small.lh-sm
+          a.post-title.fs-5(href='/posts/'+post.id)= post.title
+          br
+          span 发帖于 #{new Date(post.timestamp).toLocaleString()}
+    else 
+      p.fs-5.text-center.text-secondary 用户暂未发帖~
+
+  .my-3.p-3.bg-body.rounded.shadow-sm
+    h4.pb-2.mb-0 回帖历史：
+    each comment in comments
+      .d-flex.text-muted.pt-3.border-bottom
+        p.pb-3.mb-0.small.lh-base
+          span.fs-6 在帖子#[a(href='/posts/'+comment.postId)= comment.post_title]下评论:
+          br
+          span.text-secondary.fs-6= comment.comm_content
+    else 
+      p.fs-5.text-center.text-secondary 用户暂未评论过帖子~

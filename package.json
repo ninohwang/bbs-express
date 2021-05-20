@@ -1,0 +1,28 @@
+{
+  "name": "minibbs",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^27.0.0",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "express-session": "^1.17.1",
+    "formidable": "^1.2.2",
+    "hbs": "^4.1.1",
+    "http-errors": "~1.6.3",
+    "md5": "^2.3.0",
+    "morgan": "~1.9.1",
+    "multer": "^1.4.2",
+    "nanoid": "^3.1.22",
+    "nodemailer": "^6.5.0",
+    "pug": "2.0.0-beta11",
+    "sequelize": "^6.6.2",
+    "sqlite": "^4.0.21",
+    "sqlite3": "^5.0.2",
+    "svg-captcha": "^1.4.0"
+  }
+}

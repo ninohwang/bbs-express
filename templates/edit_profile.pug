@@ -1,0 +1,27 @@
+extends layout.pug 
+
+block content
+  script(src="/public/javascripts/ajax-edit-profile.js") 
+  //- gz: 该页的logout登出功能有小问题！！！
+  h3 信息修改#[small (edit profile)]
+  form#editProfileForm(action='/edit-profile' method='post' enctype='multipart/form-data')
+    .mb-3
+      label.form-label(for='nickName') 昵称：
+      input#nickName.form-control(type='text' name='nickname' value=`${user.nickname}`)
+    .mb-3
+      label.form-label(for='pwd-old') 旧密码：
+      input#pwd-old.form-control(type='password' name='pwd_old' required)
+    .mb-3
+      label.form-label(for='pwd-new') 新密码：
+      input#pwd-new.form-control(type='password' name='pwd_new' required)
+    .mb-3
+      label.form-label(for='pwd-certain') 新密码确认：
+      input#pwd-certain.form-control(type='password' name='pwd_certain' required)
+    .mb-3
+      label.form-label(for='upd-avatar') 头像 #[small （2Mb以内）]：
+      input#avatar.form-control(type='file' name='avatar' accept='image/*' placeholder='不上传则保留原头像')
+    br
+    .d-grid.gap-2.d-md-flex.justify-content-md-end
+      button#submit-btn.btn.btn-primary(type='submit') 提交修改
+
+  #myAlert

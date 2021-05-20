@@ -1,0 +1,24 @@
+//- 虽然header 是被 layout.pug include 引用的，不过JS里的render传入,也可在这里使用
+
+script. 
+  console.log('headerbar... 待页面加载完成再请求确认出或以登录的用户（既可能操作DOM）')
+  //- 下图主要用于服务于ajax局部更新; !{xxx} 为pug 语法 BUT TODO 这里如果没登录 则代码为 nowLoginUser = （空）
+  //- 见 ajax-post2-allcmts.js
+  const nowLoginUser =  !{JSON.stringify(user)}
+
+nav.navbar.navbar-expand.navbar-light.fixed-top(style='background-color: #e3f2fd;')
+  #page-navbar.mx-auto.container.container-fluid
+    a.navbar-brand(href='#') BBS
+    //- button.navbar-toggler(type='button' data-bs-toggle='collapse' data-bs-target='#navbarNavAltMarkup' aria-controls='navbarNavAltMarkup' aria-expanded='false' aria-label='Toggle navigation')
+    //-   span.navbar-toggler-icon
+    //- #navbarNavAltMarkup.collapse.navbar-collapse
+    .navbar-nav.float-end
+      a.nav-link.active(aria-current='page' href=`/?vm=${vm}`) 首页
+      if user 
+        //- 原本实现方案是通过将 登录用户 挂在 req.user字段上实现， 但如此缺陷：出现处处模板渲染都需要传递{user: req.user}
+        //- 实际headerbar 这里的用户读取（类似京东效果）可以通过 一段内嵌JS请求实现或者读本地的cookie 
+        a(href='/users/'+user.id).nav-link 😋hi~ #{user.email}
+        a.nav-link(href='/logout' tabindex='-1') 登出
+      else 
+        a.nav-link(href='/login') 登录
+        a.nav-link(href='/register') 注册

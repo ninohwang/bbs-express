@@ -1,0 +1,24 @@
+extends layout.pug 
+
+block content
+  h3 重置密码#[small (reset password for #{email})]
+  form#pwdResetForm(action='' method='post')
+    .mb-3
+      label.form-label(for='pwd-new') 新密码：
+      input#pwd-new.form-control(type='password' name='pwd_new' required)
+    .mb-3
+      label.form-label(for='pwd-certain') 密码确认：
+      input#pwd-certain.form-control(type='password' name='pwd_certain' required)
+    br
+    .d-grid.gap-2.d-md-flex.justify-content-md-end
+      button#submit-btn.btn.btn-primary(type='submit') 确认修改
+
+  #myAlert
+
+  script. 
+    $('#pwdResetForm').submit(function(evt) {
+      if ($('#pwd-new').val() !== $('#pwd-certain').val()) {
+        alert('两次密码填写不一致，请重试！')
+        return false
+      }
+    })

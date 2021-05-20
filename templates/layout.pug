@@ -1,0 +1,16 @@
+//- 易错， link的样式链接应用 `/path`开头
+html
+  head 
+    title BBS mini 
+    link(rel="shortcut icon" href="/public/favicon.ico")
+    link(rel='stylesheet' href='/public/stylesheets/bootstrap.min.css')
+
+    link(rel='stylesheet' href='/public/stylesheets/basic.css')
+    script(src='/public/javascripts/bootstrap.bundle.min.js')
+    script(src="/public/javascripts/jquery-3.6.0.min.js") 
+  body.ms-auto.me-auto.position-relative
+    .container(style='padding-top:60px')
+      include header.pug 
+      block content
+        p#tempPrompt 此处渲染单元
+      include footer.pug

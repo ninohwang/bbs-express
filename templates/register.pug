@@ -1,0 +1,32 @@
+extends layout.pug 
+block content 
+  script(src="public/javascripts/ajax-register.js") 
+  h3 账号注册#[small (account register)]
+  form#registerForm(action='/register' method='post' enctype='multipart/form-data')
+    .mb-3
+      label.form-label(for='email') 邮箱：
+      input#email.form-control(type='email'  name='email' required)
+    .mb-3
+      label.form-label(for='pwd') 密码：
+      input#pwd.form-control(type='password' name='pwd' required)
+    .mb-3
+      label.form-label(for='nickname') 昵称：
+      input#nickname.form-control(type='text' name='nickname' placeholder='不填写则默认用户邮箱名')
+    .mb-3
+      label.form-label(for='avatar') 头像 #[small （2Mb以内， #[span.bg-secondary.text-light 不选则使用默认提供头像]）]：
+      input#avatar.form-control(type='file' name='avatar' accept='image/*')
+      label.form-label(for='borderColorSearchForAvatar') 边框 #[small （头像边框颜色）]：
+      input#borderColorSearchForAvatar.form-control(type='color' name='bdcolor' value='#0b5ed7')
+    .mb-3
+      span 性别：
+      .form-check.form-check-inline
+        input#genderm.form-check-input(type='radio' name='gender' checked value='m')
+        label.form-check-label(for='genderm') 男孩
+      .form-check.form-check-inline
+        input#genderf.form-check-input(type='radio' name='gender' value='f')
+        label.form-check-label(for='genderf') 女孩
+    br
+    .d-grid.gap-2.d-md-flex.justify-content-md-end
+      button#submit-btn.btn.btn-primary(type='submit') 注册
+  
+  #myAlert

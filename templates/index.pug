@@ -1,0 +1,76 @@
+extends layout.pug 
+
+//- ? posts 变量获取 `res.render("somepug", {posts: val1})`
+block content
+
+  div.posts-wrapper
+    div.clearfix
+      a(href='/addpost/').mx-1.float-end.btn.btn-small.btn-light 创建帖子
+      if (user) 
+        a(href=`/users/${user.id}` type='submit').mx-1.float-end.btn.btn-small.btn-light 个人信息页
+
+      form#postsViewModeForm(action='/' method='get')
+        select#vm.float-start(name='vm' class='form-select' aria-label='Default select example' style='width:30%;')
+          //- vm - viewmode ; t: time ; w: weight; h: hot; r: recently
+          option(disabled value='disabled') 排序方案
+          option(value='t') 发帖时间
+          option(value='w') 权重下沉
+          option(value='h') 浏览热度
+          option(value='r') 最近回复
+        button.mx-1.btn.btn-small.btn-light(type='submit') 确定
+    ul.posts-list.list-group.list-group-flush.my-3.mb-3.p-3.bg-body.rounded.shadow-sm
+      
+      each post in posts 
+        //- TODO 如下bootstrap 样式待优化
+        li.list-group-item.post-item
+          .row.mb-3
+            a(href='/users/'+post.userId title=post.email).col.flex-grow-0.flex-shrink-0: img(style="border:3px solid "+ post.bdcolor width="50" height="50" src='/upload/user_avatar/'+post.avatar).post-avatar.rounded-circle
+            //- img(width="50" height="50" src='/upload/user_avatar/'+post.avatar).post-avatar.col.flex-grow-0.flex-shrink-0.rounded-circle
+            div.col
+              - var badgeClass = [post.clicks<5?'bg-light text-dark':'',post.clicks>=5&&post.clicks<10?'bg-secondary':'',post.clicks>=10 && post.clicks < 20?'bg-primary':'',post.clicks>=20 && post.clicks<50? 'bg-danger':'', post.clicks>=50? 'bg-warning':'']
+              //- 临时tag
+              span.badge.bg-light.text-dark.float-end.mx-1 W-#{post.weight}
+
+              span.badge.float-end(class=badgeClass) #{post.clicks >= 20 ? '🔥 HOT ':'浏览数：'}#{post.clicks}
+              a.post-title.fs-5(href='/posts/'+post.id)= post.title
+              br
+              span.text-secondary #[a(href='/users/'+post.userId) #{post.nickname}] 
+              br
+
+              span 发帖@ #{new Date(post.timestamp).toLocaleString()}
+              if user && post.userId == user.id
+                button.delpost-btn.btn.btn-sm.btn-outline-danger.mx-2.float-end(data-post-id=post.id style='height:24px') &times;
+              if post.lastCmtStamp !== 0
+                span.text-secondary.float-end  最近回复@ #{new Date(post.lastCmtStamp).toLocaleString()}
+      else 
+        p 网站暂时没有帖子，来暖暖场！
+
+    //- 借助此（实际localStorage） 让view-mode的select框 在请求到页面时框内就能够实时显示 帖子排序模式 （可通过注释下行看效果！）
+    script(src="/public/javascripts/for-view-mode.js") 
+
+
+    nav(aria-label='...')
+      ul.pagination.m-auto(style='width:min-content;')
+        li.page-item(class={disabled: pageInfo.curPage === 1})
+          a.page-link(href=`/?p=${+pageInfo.curPage-1}&vm=${vm}` tabindex='-1') &laquo;
+        each pageNum in Array(pageInfo.pagesCou).fill(0).map((_,idx) => idx + 1)
+          li.page-item(class={active:  pageNum === pageInfo.curPage}) 
+            a.page-link(href=`/?p=${pageNum}&vm=${vm}`)= pageNum
+        li.page-item(class={disabled: pageInfo.curPage === pageInfo.pagesCou})
+          a.page-link(href=`/?p=${+pageInfo.curPage+1}&vm=${vm||'h'}`) &raquo;
+
+    script. 
+      $('body').on('click', '.delpost-btn', function (e) {
+        const ans = confirm('确定要删除该发帖吗？删除后不可撤回。')
+        if (!ans) return
+        
+        $.ajax(`/posts/${$(e.target).data('post-id')}`, {
+          method: 'delete'
+        })
+          .then(_ => {
+            $(e.target).closest('.post-item').remove()
+          })
+          .catch(rej => {
+            alert(rej.responseText)
+          })
+      })

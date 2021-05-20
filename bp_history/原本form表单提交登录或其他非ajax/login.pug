@@ -1,0 +1,18 @@
+extends layout.pug 
+block content
+  h3 账号登录#[small (account login)]
+  form(action='/login' method='post')
+      input(type='hidden' value=referer||'/' name='next')
+      .mb-3
+        label.form-label(for='inputEmail1') 邮箱：
+        input#inputEmail1.form-control(type='email' name='email')
+      .mb-3
+        label.form-label(for='password1') 密码：
+        input#password1.form-control(type='password' name='pwd')
+      .mb-3
+        label.form-label(for='captcha') 验证码：
+        .input-group
+          input#captcha.form-control(type='text' name='captcha')
+          span.input-group-text.captcha-outter: img(src='/captcha', alt='验证码 captcha')
+      .d-grid.gap-2.d-md-flex.justify-content-md-end
+        button.btn.btn-primary(type='submit') 登录

@@ -1,0 +1,18 @@
+extends layout.pug 
+block content 
+
+  h3 确认邮箱#[small (email confirm)]
+  form#pwdForgotForm(action='' method='post')
+      input(type='hidden' value=referer||'/' name='next')
+      .mb-3
+        label.form-label(for='inputEmail1') 邮箱：
+        input#inputEmail1.form-control(type='email' name='email' required)
+      .mb-3
+        label.form-label(for='captcha') 验证码：
+        .input-group
+          input#captcha.form-control(type='text' name='captcha' required)
+          span.input-group-text.captcha-outter: img#captcha-img(src=`/captcha/?t=${Date.now()}`, alt='验证码 captcha')
+      .d-grid.mb-3.gap-2.d-md-flex.justify-content-md-end
+        button#submit-btn.btn.btn-primary(type='submit') 确认
+      .mb-3 
+        span.text-danger 👉请点击邮箱中的链接地址以重置用户密码,5分钟内有效

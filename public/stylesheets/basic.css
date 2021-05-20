@@ -1,0 +1,31 @@
+body, #page-navbar {
+  min-width: 500px;
+  max-width: 960px;
+}
+a {
+  text-decoration: none;
+}
+
+textarea {
+  resize: none;
+}
+
+.posts-list  a.post-title{
+  color: #d63384;
+}
+
+.captcha-outter {
+  padding: 0 !important;
+}
+
+.user-info-wrapper a.edit-profile-link {
+  display: inline-block;
+  padding: 2px;
+  outline: 1px solid gray;
+  border-radius: 5rem;
+}
+
+/* for ckeditor */ 
+.ck-content {
+  min-height: 150px;
+}

@@ -1,0 +1,23 @@
+extends layout.pug 
+block content
+  h3 账号登录#[small (account login)]
+  form#loginForm(action='/login' method='post')
+      input(type='hidden' value=referer||'/' name='next')
+      .mb-3
+        label.form-label(for='inputEmail1') 邮箱：
+        input#inputEmail1.form-control(type='email' name='email' required)
+      .mb-3
+        label.form-label(for='password1') 密码：
+        input#password1.form-control(type='password' name='pwd' required)
+      .mb-3
+        label.form-label(for='captcha') 验证码：
+        .input-group
+          input#captcha.form-control(type='text' name='captcha' required)
+          span.input-group-text.captcha-outter: img#captcha-img(src=`/captcha/?t=${Date.now()}`, alt='验证码 captcha')
+      .d-grid.mb-3.gap-2.d-md-flex.justify-content-md-end
+        button#submit-btn.btn.btn-primary(type='submit') 登录
+      .d-grid.mb-3.gap-2.d-md-flex.justify-content-md-end
+        a.float-end.text-secondary(href='/pwd-forgot' style="text-decoration:underline") &nbsp;忘记密码？
+  script(src="/public/javascripts/ajax-login.js") 
+
+  #myAlert

@@ -1,0 +1,15 @@
+extends layout.pug 
+block content 
+  h3 发帖
+  if user
+    form(action='/addpost' method='post')
+      input(type='hidden' name='userId' value=user.id)
+      .mb-3
+        input.form-control(type='text' name='title' placeholder='加个标题~')
+      .form-floating.mb-3
+        textarea#floatingTextarea.form-control.mb-1(name='content' placeholder='发条评论吧！' style="height: 100px" required)
+        label(for='floatingTextarea') 来吧，尽情发挥吧...
+      .d-grid.gap-2.d-md-flex.justify-content-md-end
+        button.btn.btn-primary(type='submit') 发布
+  else 
+    p.text-sm-center.fs-5 #[a(href='/login') 登录]之后，就可以发帖哦
