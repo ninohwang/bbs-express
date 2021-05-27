@@ -13,7 +13,7 @@ const router = Router()
 router.get('/', (req, res, next) => {
   let captcha = svgCaptcha.create({
     ignoreChars: '0o1iIl8B',  
-    /* temp */size:1, noise: 3,
+    /* temp */size:4, noise: 3,
   })
   req.session.captcha = captcha.text
   res.status(200).type('svg').send(captcha.data)

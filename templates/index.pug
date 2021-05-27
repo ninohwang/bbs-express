@@ -32,7 +32,7 @@ block content
               span.badge.bg-light.text-dark.float-end.mx-1 W-#{post.weight}
 
               span.badge.float-end(class=badgeClass) #{post.clicks >= 20 ? '🔥 HOT ':'浏览数：'}#{post.clicks}
-              a.post-title.fs-5(href='/posts/'+post.id)= post.title
+              a.post-title.fs-5(href='/posts/'+post.id)= post.title.slice(0,15)+'...'
               br
               span.text-secondary #[a(href='/users/'+post.userId) #{post.nickname}] 
               br

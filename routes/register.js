@@ -5,10 +5,12 @@ const multer = require('multer')
 const path = require('path')
 const md5 = require('md5')
 const nodemailer = require('nodemailer')
+const MakeActiEmailHtml = require('../email-html/make-reset-pwd-html')
 
 const {handleMd5, SELF_STATCODE, IPADD, PORT, EMAIL_SERVER} = require('../constant')
 
 const registerRouter = Router()
+/* 处理邮件激活的路由中间件 */
 const activateEmailRouter = Router()
 
 /* gz : 另一种常见的账号激活逻辑为：注册页除了注册按钮外，还有个通过邮件 获取激活码的按钮，此必填，之后才可完成注册，如此优点是不必提前把条目加入到数据库中，而是确认了邮箱所属后才执行*/
@@ -88,13 +90,14 @@ registerRouter.route('/')
           code4activation,
         )
 
-        const url = `http://${IPADD}:${PORT}/active-email/${code4activation}`
+        // const url = `http://${IPADD}:${PORT}/active-email/${code4activation}`
         
         const mailOptions = {
           from: EMAIL_SERVER,
           to: email,
-          subject: '[BBSMINI😘]activate your account on site minibbs',
-          html: `<h3> 点击链接地址，以完成邮箱激活。<strong>（10分钟内有效）</strong> <br/><a href="${url}" target='_blank'>${url}</a></h3>`
+          subject: '[BBSMINI😘]账号激活链接',
+          // html: `<h3> 点击链接地址，以完成邮箱激活。<strong>（10分钟内有效）</strong> <br/><a href="${url}" target='_blank'>${url}</a></h3>`
+          html: MakeActiEmailHtml(code4activation, false)
         }
         transporter.sendMail(mailOptions, (err, info) => {
           if (err) {
@@ -121,11 +124,9 @@ registerRouter.route('/')
                 DELETE FROM users WHERE email = ?
               `, email)
             }
-          }, 1000 * 60 * 10);
+          }, 1000 * 60 * 10); /* TODO 测试限时内没激活则删除条目... */
         })
 
-
-        
       } catch (err) {
         if (err.code === 'SQLITE_CONSTRAINT') {
           res.status(401).json({

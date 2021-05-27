@@ -18,7 +18,7 @@ block content
     each post in posts
       .d-flex.text-muted.pt-3.border-bottom
         p.posts-list.pb-3.mb-0.small.lh-sm
-          a.post-title.fs-5(href='/posts/'+post.id)= post.title
+          a.post-title.fs-5(href='/posts/'+post.id)= post.title.slice(0,15)+'...'
           br
           span 发帖于 #{new Date(post.timestamp).toLocaleString()}
     else 
@@ -29,8 +29,8 @@ block content
     each comment in comments
       .d-flex.text-muted.pt-3.border-bottom
         p.pb-3.mb-0.small.lh-base
-          span.fs-6 在帖子#[a(href='/posts/'+comment.postId)= comment.post_title]下评论:
-          br
-          span.text-secondary.fs-6= comment.comm_content
+          span.fs-6 在帖子#[a(href='/posts/'+comment.postId)= comment.post_title.slice(0,15)+'...']下评论
+          //- br
+          //- span.text-secondary.fs-6= comment.comm_content
     else 
       p.fs-5.text-center.text-secondary 用户暂未评论过帖子~

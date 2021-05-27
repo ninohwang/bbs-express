@@ -20,7 +20,8 @@ map4vm.r = 'p.lastCmtStamp'
 map4vm.h = 'p.clicks'
 
 module.exports = {
-  PORT: 80,
+  PORT: 8355,
+  DOMAIN: 'bbs.h3xgiii.site', 
   IPADD: '10.0.0.172', /* host: ts.miao.com */   //'127.0.0.55',
   // IPADD: '127.0.0.55', /* host: ts.miao.com */   //'127.0.0.55',
   EMAIL_SERVER: 'huiyu19830713@163.com',

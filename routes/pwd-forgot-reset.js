@@ -4,6 +4,7 @@ const md5 = require('md5')
 const path = require('path')
 const nodemailer = require('nodemailer')
 const { IPADD, PORT, handleMd5, EMAIL_SERVER, SELF_STATCODE} = require('../constant/')
+const MakeResetPwdHtml = require('../email-html/make-reset-pwd-html')
 
 const transporter = nodemailer.createTransport({
   host: 'smtp.163.com',
@@ -40,7 +41,7 @@ pwdForgotRouter.post('/', async (req, res, next) => {
   const { email, captcha } = req.body
 
   const existUser = await db.get(`
-    SELECT email FROM users
+    SELECT email, rowid as id FROM users
     WHERE users.email = ?
   `, email)
 
@@ -68,8 +69,9 @@ pwdForgotRouter.post('/', async (req, res, next) => {
   const mailOptions = {
     from: EMAIL_SERVER,
     to: email,
-    subject: '[BBSMINI😘]reset your password on site minibbs',
-    html: `<h3>重置密码: <a href="${url}" target='_blank'>${url}</a>，请及时前往修改</h3>`
+    subject: '[BBSMINI😘]重置密码的方式如下',
+    // html: `<h3>重置密码: <a href="${url}" target='_blank'>${url}</a>，请及时前往修改</h3>`
+    html: MakeResetPwdHtml(token)
   }
 
   transporter.sendMail(mailOptions, (err, info) => {
@@ -112,7 +114,7 @@ pwdResetRouter.post('/:token', async (req, res, next) => {
   const { token } = req.params
 
   if (!emailTokenMap.has(token)) {
-    res.status(401).type('html').end(`<h3>链接已失效，请重试, 或返回<a>首页</a></h3>`)
+    res.status(401).type('html').end(`<h3>链接已失效，请重试, 或返回<a href='/'>首页</a></h3>`)
     // res.status(401).json({
     //   msg: '链接已失效，请重试'
     // })
