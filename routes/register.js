@@ -16,14 +16,16 @@ const activateEmailRouter = Router()
 /* gz : 另一种常见的账号激活逻辑为：注册页除了注册按钮外，还有个通过邮件 获取激活码的按钮，此必填，之后才可完成注册，如此优点是不必提前把条目加入到数据库中，而是确认了邮箱所属后才执行*/
 
 const transporter = nodemailer.createTransport({
-  host: 'smtp.163.com', 
+  host: /* YOUR SMTP HOST */'SMTP HOST',
   secure: true,
   requireTLS: true,
   auth: {
     user: EMAIL_SERVER,
-    pass: 'LYTOOKSVZGKJVXQJ'
+    pass: ''/* YOUR SMTP SERVICE AUTR  */
   }
 })
+
+
 const emailActiveCodeMap = new Map()
 
 const sqlite = require('sqlite'), sqlite3 = require('sqlite3')

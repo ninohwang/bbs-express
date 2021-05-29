@@ -7,12 +7,12 @@ const { IPADD, PORT, handleMd5, EMAIL_SERVER, SELF_STATCODE, DOMAIN} = require('
 const MakeResetPwdHtml = require('../email-html/make-reset-pwd-html')
 
 const transporter = nodemailer.createTransport({
-  host: 'smtp.163.com',
+  host: 'SMTP HOST',
   secure: true,
   requireTLS: true,
   auth: {
     user: EMAIL_SERVER,
-    pass: 'LYTOOKSVZGKJVXQJ'
+    pass: ''/* YOUR SMTP SERVICE AUTR  */
   }
 })
 

@@ -24,7 +24,7 @@ module.exports = {
   DOMAIN: 'bbs.h3xgiii.site', 
   IPADD: '10.0.0.172', /* host: ts.miao.com */   //'127.0.0.55',
   // IPADD: '127.0.0.55', /* host: ts.miao.com */   //'127.0.0.55',
-  EMAIL_SERVER: 'huiyu19830713@163.com',
+  EMAIL_SERVER: /* YOUR SMTP EMAIL */'YOUR SMTP EMAIL',
   PAGE_SIZE: 7, //每页显示帖子数目
   MAX_AGE: 3 * 60 * 60 * 1000,
   MAX_AGE_SESSION: 7 * 24 * 60 * 60 * 1000, /* 7 days */
