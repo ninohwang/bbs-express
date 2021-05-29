@@ -3,7 +3,7 @@ const { nanoid } = require('nanoid')
 const md5 = require('md5')
 const path = require('path')
 const nodemailer = require('nodemailer')
-const { IPADD, PORT, handleMd5, EMAIL_SERVER, SELF_STATCODE} = require('../constant/')
+const { IPADD, PORT, handleMd5, EMAIL_SERVER, SELF_STATCODE, DOMAIN} = require('../constant/')
 const MakeResetPwdHtml = require('../email-html/make-reset-pwd-html')
 
 const transporter = nodemailer.createTransport({
@@ -74,6 +74,18 @@ pwdForgotRouter.post('/', async (req, res, next) => {
     html: MakeResetPwdHtml(token)
   }
 
+  // transporter.sendMail(mailOptions, (err, info) => {
+  //   if (err) {
+  //     res.status(500).json({
+  //       code: SELF_STATCODE.EMAIL_SEND_FAILED,
+  //       msg: '服务器太忙，请重试以再次发送邮件',
+  //     })
+  //     return console.log('[send-mail-err]:', err.message)
+  //   }
+  //   res.status(200).type('html').end(`<h3>已发送重置密码的<a href="${url}" target='_blank'>链接<small>（演示用）</small></a>，请及时确认</h3>`)
+  //   console.log('[pwdreset-msg-sent]:', info.response);
+  // })
+
   transporter.sendMail(mailOptions, (err, info) => {
     if (err) {
       res.status(500).json({
@@ -82,8 +94,8 @@ pwdForgotRouter.post('/', async (req, res, next) => {
       })
       return console.log('[send-mail-err]:', err.message)
     }
-    res.status(200).type('html').end(`<h3>已发送重置密码的<a href="${url}" target='_blank'>链接<small>（演示用）</small></a>，请及时确认</h3>`)
-    console.log('[pwdreset-msg-sent]:', info.response);
+    console.log('[send email suc]!')
+    res.status(200).type('html').end(`<h3>已发送重置密码的<a href="http://${DOMAIN}:${PORT}/pwd-reset/${token}" target='_self'>链接<small>（演示用）</small></a>，请及时确认</h3>`)
   })
 
   setTimeout(() => {

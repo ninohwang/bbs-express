@@ -203,8 +203,8 @@ app.use((err, req, res, next) => { //错误的捕获；若无此，可能输出�
 })
 
 
-const server = app.listen(PORT, IPADD, () => {
-
+const server = app.listen(PORT, () => {
+  
   /* TODO temp db挂到App上 */ dbPromise.then(db => app.locals.database = db)
   const { address, port } = server.address()
   console.log(`listening --> http://${address}:${port}`);
