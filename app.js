@@ -129,7 +129,8 @@ app.use((req,res, next) => {
 /* TODO - app.get('/:category') 以类别浏览 */
 app.get('/', async (req, res, next) => {
   let page = +(req.query.p ?? '1')
-  let vm = req.query.vm ?? 'h'
+  // let vm = req.query.vm ?? 'h'
+  let vm = req.query.vm ?? req.cookies.vm
   if (vm == 'undefined') vm='h'
   
   res.cookie('vm', vm,{}) /* 如此可能不是规范操作，因为频繁的跟新cookie */
